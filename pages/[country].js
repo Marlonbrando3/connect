@@ -2,25 +2,18 @@ import { useState, useEffect } from 'react'
 import Head from 'next/head'
 import {useRouter} from 'next/router'
 import Header from '../components/Header'
-import HomeView from '../components/HomeView'
-import SearchButton from '../components/SearchButton'
-import MainTheme from '../components/MainTheme'
 import SearchEngine from '../components/SearchEngine/SearchEngine'
-import HeaderCountrySearch from '../components/HeaderCountrySearch'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
 import Property from '../model/propertymodel'
 import db from '../utils/db'
-import FindReplaceOutlined from '@mui/icons-material/FindReplaceOutlined'
-import FindReplaceOutlinedfrom from '@mui/icons-material/RouterTwoTone'
 import Applychanges from '../components/SearchEngine/Applychanges'
 import Footer from '../components/Footer'
 import ContactFormMain from '../components/ContactFormMain'
 
 export default function Home(
-  {propertiesWork}
+  {propertiesWork, kolo}
   ) {
   console.log("index")
+  console.log(kolo)
 
   const[showSearchComponentsOnMobile, setShowSearchComponentsOnMobile] = useState(false)
   
@@ -162,9 +155,9 @@ export default function Home(
         searchConditions={searchConditions}
         setSearchConditions={setSearchConditions}
        /> */}
-      <MainTheme 
+      {/* <MainTheme 
         searchShow={searchShow}
-        setSearchShow={setSearchShow}/>
+        setSearchShow={setSearchShow}/> */}
       <SearchEngine
         sitesArraycounter={sitesArraycounter}
         sitesArray={sitesArray}
@@ -325,26 +318,28 @@ export async function getServerSideProps (contex) {
 
 
   const results = await Property.find({
-      // country: contex.query.country,
-      // region: regiond,
-      // distance: {$lte: distanced},
-      // type: typed,
-      // pool:{$in: pool},
-      // seaview:{$in: seaview},
-      // parking:{$in: parking},
-      // garden:{$in: garden},
-      // solarium:{$in: solarium},
-      // balcony:{$in: balcony},
-      // price: {$gte: pf, $lte: pt},
-      // bathrooms: {$gte: bathf, $lte: batht},
-      // bedrooms: {$gte: bedf, $lte: bedt},
+      country: contex.query.country,
+      region: regiond,
+      distance: {$lte: distanced},
+      type: typed,
+      pool:{$in: pool},
+      seaview:{$in: seaview},
+      parking:{$in: parking},
+      garden:{$in: garden},
+      solarium:{$in: solarium},
+      balcony:{$in: balcony},
+      price: {$gte: pf, $lte: pt},
+      bathrooms: {$gte: bathf, $lte: batht},
+      bedrooms: {$gte: bedf, $lte: bedt},
   });
 
   const properties = JSON.parse(JSON.stringify(results))
   
   return {
+    props:{kolo:"kolo"},
     props:{
-      propertiesWork: properties
+      propertiesWork: properties,
+      dummyprop:"kolo"
     }
   }
 }
